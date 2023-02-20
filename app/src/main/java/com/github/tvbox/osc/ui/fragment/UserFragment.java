@@ -325,4 +325,9 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         super.onDestroy();
         EventBus.getDefault().unregister(this);
     }
+    
+    public void forceRefresh() {
+        page = 1;
+        initData();
+    }
 }
