@@ -937,7 +937,7 @@ public class DetailActivity extends BaseActivity {
     ViewGroup.LayoutParams windowsPreview = null;
     ViewGroup.LayoutParams windowsFull = null;
 
-    public void toggleFullPreview() {
+    void toggleFullPreview() {
         if (windowsPreview == null) {
             windowsPreview = llPlayerFragmentContainer.getLayoutParams();
         }

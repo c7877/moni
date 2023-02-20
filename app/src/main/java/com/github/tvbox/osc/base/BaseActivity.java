@@ -178,10 +178,6 @@ public abstract class BaseActivity extends AppCompatActivity implements CustomAd
         return !(screenRatio >= 4.0f);
     }
     
-    public boolean supportsTouch() {
-        return getPackageManager().hasSystemFeature("android.hardware.touchscreen");
-    }
-
     protected static BitmapDrawable globalWp = null;
 
     public void changeWallpaper(boolean force) {
