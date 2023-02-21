@@ -429,7 +429,10 @@ public class LivePlayActivity extends BaseActivity {
         UrlHttpUtil.get(url, new CallBackUtil.CallBackString() {
             public void onFailure(int i, String str) {
                 showEpg(date, new ArrayList());
-                //showBottomEpg();
+                String failEpgKey = channelName + "_" + liveEpgDateAdapter.getItem(liveEpgDateAdapter.getSelectedIndex()).getDatePresented();
+                if (!hsEpg.contains(failEpgKey))
+                    hsEpg.put(failEpgKey, new ArrayList());
+                showBottomEpg();
             }
 
             public void onResponse(String paramString) {
