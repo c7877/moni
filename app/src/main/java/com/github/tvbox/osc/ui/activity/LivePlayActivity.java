@@ -149,7 +149,7 @@ public class LivePlayActivity extends BaseActivity {
     private TextView tv_right_top_channel_name;
     private TextView tv_right_top_epg_name;
     private TextView tv_right_top_type;
-    private ImageView iv_circle_bg;
+    //private ImageView iv_circle_bg;
     private TextView tv_shownum ;
     private TextView txtNoEpg ;
     private ImageView iv_back_bg;
@@ -231,7 +231,7 @@ public class LivePlayActivity extends BaseActivity {
         tv_right_top_channel_name = (TextView)findViewById(R.id.tv_right_top_channel_name);
         tv_right_top_epg_name = (TextView)findViewById(R.id.tv_right_top_epg_name);
         tv_right_top_type = (TextView)findViewById(R.id.tv_right_top_type);
-        iv_circle_bg = (ImageView) findViewById(R.id.iv_circle_bg);
+        //iv_circle_bg = (ImageView) findViewById(R.id.iv_circle_bg);
         iv_back_bg = (ImageView) findViewById(R.id.iv_back_bg);
         tv_shownum = (TextView) findViewById(R.id.tv_shownum);
         txtNoEpg = (TextView) findViewById(R.id.txtNoEpg);
@@ -429,7 +429,7 @@ public class LivePlayActivity extends BaseActivity {
         UrlHttpUtil.get(url, new CallBackUtil.CallBackString() {
             public void onFailure(int i, String str) {
                 showEpg(date, new ArrayList());
-                showBottomEpg();
+                //showBottomEpg();
             }
 
             public void onResponse(String paramString) {
