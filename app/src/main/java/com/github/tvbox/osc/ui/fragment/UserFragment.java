@@ -202,6 +202,13 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                         Hawk.put(HawkConfig.API_URL, api);
                         tvApi.setText(api);
                         dialog.dismiss();
+                        if (api.equals(Hawk.get(HawkConfig.API_URL, ""))) {
+                            Bundle bundle = new Bundle();
+                            bundle.putBoolean("useCache", true);
+                            jumpActivity(HomeActivity.class, bundle);
+                        } else {
+                            jumpActivity(HomeActivity.class);
+                        }
                     }
 
                     @Override
