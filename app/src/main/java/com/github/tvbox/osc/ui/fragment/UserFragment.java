@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
@@ -23,6 +24,10 @@ import com.github.tvbox.osc.ui.activity.PushActivity;
 import com.github.tvbox.osc.ui.activity.SearchActivity;
 import com.github.tvbox.osc.ui.activity.SettingActivity;
 import com.github.tvbox.osc.ui.adapter.HomeHotVodAdapter;
+
+import com.github.tvbox.osc.ui.dialog.ApiHistoryDialog;
+import com.github.tvbox.osc.ui.adapter.ApiHistoryDialogAdapter;
+
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.util.UA;
@@ -58,6 +63,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     private LinearLayout tvHistory;
     private LinearLayout tvCollect;
     private LinearLayout tvPush;
+    private TextView tvApi;
     private HomeHotVodAdapter homeHotVodAdapter;
     private List<Movie.Video> homeSourceRec;
     TvRecyclerView tvHotList1;
@@ -119,17 +125,20 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
         tvCollect = findViewById(R.id.tvFavorite);
         tvHistory = findViewById(R.id.tvHistory);
         tvPush = findViewById(R.id.tvPush);
+        apiHistory = findViewById(R.id.apiHistory);
         tvLive.setOnClickListener(this);
         tvSearch.setOnClickListener(this);
         tvSetting.setOnClickListener(this);
         tvHistory.setOnClickListener(this);
         tvPush.setOnClickListener(this);
+        apiHistory.setOnClickListener(this);
         tvCollect.setOnClickListener(this);
         tvLive.setOnFocusChangeListener(focusChangeListener);
         tvSearch.setOnFocusChangeListener(focusChangeListener);
         tvSetting.setOnFocusChangeListener(focusChangeListener);
         tvHistory.setOnFocusChangeListener(focusChangeListener);
         tvPush.setOnFocusChangeListener(focusChangeListener);
+        apiHistory.setOnFocusChangeListener(focusChangeListener);
         tvCollect.setOnFocusChangeListener(focusChangeListener);
         tvHotList1 = findViewById(R.id.tvHotList1);
         tvHotList2 = findViewById(R.id.tvHotList2);
@@ -175,7 +184,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                 return true;
             }
         });
-
+        
         tvHotList1.setOnItemListener(new TvRecyclerView.OnItemListener() {
             @Override
             public void onItemPreSelected(TvRecyclerView parent, View itemView, int position) {
@@ -295,7 +304,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                 v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
         }
     };
-
+    
     @Override
     public void onClick(View v) {
         FastClickCheckUtil.check(v);
@@ -309,6 +318,32 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             jumpActivity(HistoryActivity.class);
         } else if (v.getId() == R.id.tvPush) {
             jumpActivity(PushActivity.class);
+        } else if (v.getId() == R.id.apiHistory) {
+            //jumpActivity(PushActivity.class);
+            ArrayList<String> history = Hawk.get(HawkConfig.API_HISTORY, new ArrayList<String>());
+                if (history.isEmpty())
+                    return;
+                String current = Hawk.get(HawkConfig.API_URL, "");
+                int idx = 0;
+                if (history.contains(current))
+                    idx = history.indexOf(current);
+                ApiHistoryDialog dialog = new ApiHistoryDialog(getContext());
+                //dialog.setTip(getString(R.string.dia_history_list));
+                dialog.setTip("历史配置列表");
+                dialog.setAdapter(new ApiHistoryDialogAdapter.SelectDialogInterface() {
+                    @Override
+                    public void click(String api) {
+                        Hawk.put(HawkConfig.API_URL, api);
+                        tvApi.setText(api);
+                        dialog.dismiss();
+                    }
+
+                    @Override
+                    public void del(String value, ArrayList<String> data) {
+                        Hawk.put(HawkConfig.API_HISTORY, data);
+                    }
+                }, history, idx);
+                dialog.show();
         } else if (v.getId() == R.id.tvFavorite) {
             jumpActivity(CollectActivity.class);
         }
