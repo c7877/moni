@@ -549,7 +549,7 @@ public class VodController extends BaseController {
                 boolean showPreview = Hawk.get(HawkConfig.SHOW_PREVIEW, true);
                 if (showPreview) {
                     //mTopRoot.setVisibility(GONE);
-                    //mBottomRoot.setVisibility(GONE);
+                    mBottomRoot.setVisibility(GONE);
                     mTopRoot1.setVisibility(GONE);
                     mTopRoot2.setVisibility(GONE);
                     mBack.setVisibility(GONE);
