@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.animation.BounceInterpolator;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.github.tvbox.osc.R;
@@ -19,16 +18,11 @@ import com.github.tvbox.osc.ui.activity.CollectActivity;
 import com.github.tvbox.osc.ui.activity.DetailActivity;
 import com.github.tvbox.osc.ui.activity.FastSearchActivity;
 import com.github.tvbox.osc.ui.activity.HistoryActivity;
-import com.github.tvbox.osc.ui.activity.HomeActivity;
 import com.github.tvbox.osc.ui.activity.LivePlayActivity;
 import com.github.tvbox.osc.ui.activity.PushActivity;
 import com.github.tvbox.osc.ui.activity.SearchActivity;
 import com.github.tvbox.osc.ui.activity.SettingActivity;
 import com.github.tvbox.osc.ui.adapter.HomeHotVodAdapter;
-
-import com.github.tvbox.osc.ui.dialog.ApiHistoryDialog;
-import com.github.tvbox.osc.ui.adapter.ApiHistoryDialogAdapter;
-
 import com.github.tvbox.osc.util.FastClickCheckUtil;
 import com.github.tvbox.osc.util.HawkConfig;
 import com.github.tvbox.osc.util.UA;
@@ -64,7 +58,6 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
     private LinearLayout tvHistory;
     private LinearLayout tvCollect;
     private LinearLayout tvPush;
-    private TextView tvApi;
     private HomeHotVodAdapter homeHotVodAdapter;
     private List<Movie.Video> homeSourceRec;
     TvRecyclerView tvHotList1;
@@ -182,45 +175,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                 return true;
             }
         });
-        
-        findViewById(R.id.apiHistory).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FastClickCheckUtil.check(v);
-                ArrayList<String> history = Hawk.get(HawkConfig.API_HISTORY, new ArrayList<String>());
-                if (history.isEmpty())
-                    return;
-                String current = Hawk.get(HawkConfig.API_URL, "");
-                int idx = 0;
-                if (history.contains(current))
-                    idx = history.indexOf(current);
-                ApiHistoryDialog dialog = new ApiHistoryDialog(getContext());
-                //dialog.setTip(getString(R.string.dia_history_list));
-                dialog.setTip("历史配置列表");
-                dialog.setAdapter(new ApiHistoryDialogAdapter.SelectDialogInterface() {
-                    @Override
-                    public void click(String api) {
-                        Hawk.put(HawkConfig.API_URL, api);
-                        tvApi.setText(api);
-                        dialog.dismiss();
-                        if (api.equals(Hawk.get(HawkConfig.API_URL, ""))) {
-                            Bundle bundle = new Bundle();
-                            bundle.putBoolean("useCache", true);
-                            jumpActivity(HomeActivity.class, bundle);
-                        } else {
-                            jumpActivity(HomeActivity.class);
-                        }
-                    }
 
-                    @Override
-                    public void del(String value, ArrayList<String> data) {
-                        Hawk.put(HawkConfig.API_HISTORY, data);
-                    }
-                }, history, idx);
-                dialog.show();
-            }
-        });
-        
         tvHotList1.setOnItemListener(new TvRecyclerView.OnItemListener() {
             @Override
             public void onItemPreSelected(TvRecyclerView parent, View itemView, int position) {
@@ -340,7 +295,7 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
                 v.animate().scaleX(1.0f).scaleY(1.0f).setDuration(300).setInterpolator(new BounceInterpolator()).start();
         }
     };
-    
+
     @Override
     public void onClick(View v) {
         FastClickCheckUtil.check(v);
