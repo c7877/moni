@@ -182,9 +182,10 @@ public class UserFragment extends BaseLazyFragment implements View.OnClickListen
             }
         });
         
-        findViewById(R.id.ApiHistory).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.apiHistory).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                FastClickCheckUtil.check(v);
                 ArrayList<String> history = Hawk.get(HawkConfig.API_HISTORY, new ArrayList<String>());
                 if (history.isEmpty())
                     return;
