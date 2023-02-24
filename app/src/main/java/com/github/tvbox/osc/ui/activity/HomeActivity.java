@@ -217,11 +217,11 @@ public class HomeActivity extends BaseActivity {
         });
         this.mGridView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
-            public boolean onLongClick(View v) {
+            public void onLongClick(View v) {
                 BaseLazyFragment baseLazyFragment = fragments.get(sortFocused);
-                    if ((baseLazyFragment instanceof GridFragment)) {// 弹出筛选
-                        ((GridFragment) baseLazyFragment).forceRefresh();
-                    }
+                if ((baseLazyFragment instanceof GridFragment)) {// 弹出筛选
+                    ((GridFragment) baseLazyFragment).forceRefresh();
+                }
             }
         });
         tvName.setOnClickListener(new View.OnClickListener() {
