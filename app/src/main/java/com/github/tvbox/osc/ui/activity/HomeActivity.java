@@ -215,18 +215,7 @@ public class HomeActivity extends BaseActivity {
                 return false;
             }
         });
-        this.mGridView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                
-                    BaseLazyFragment baseLazyFragment = fragments.get(sortFocused);
-                    if ((baseLazyFragment instanceof GridFragment)) {// 弹出筛选
-                        ((GridFragment) baseLazyFragment).forceRefresh();
-                    }
-                
-                return true;
-            }
-        });
+        
         tvName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -235,6 +224,7 @@ public class HomeActivity extends BaseActivity {
                 showSiteSwitch();
             }
         });
+        
         tvName.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
