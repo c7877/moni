@@ -215,7 +215,7 @@ public class HomeActivity extends BaseActivity {
                 return false;
             }
         });
-        this.mGridView.setOnLongClickListener(new OnLongClickListener() {
+        this.mGridView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
                 try {
