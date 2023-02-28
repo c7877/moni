@@ -367,6 +367,7 @@ public class PlayActivity extends BaseActivity {
                         public void run() {
                             mediaPlayer.seekTo(progress);
                             mediaPlayer.start();
+                            mController.startProgress();
                         }
                     }, 800);
                     dialog.dismiss();
@@ -432,6 +433,7 @@ public class PlayActivity extends BaseActivity {
                             public void run() {
                                 mediaPlayer.seekTo(progress);
                                 mediaPlayer.start();
+                                mController.startProgress();
                             }
                         }, 800);
                     }
