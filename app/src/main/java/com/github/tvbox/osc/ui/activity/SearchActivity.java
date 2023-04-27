@@ -364,8 +364,6 @@ public class SearchActivity extends BaseActivity {
         }
         // 加载热词
         OkGo.<String>get("https://node.video.qq.com/x/api/hot_search")
-//        OkGo.<String>get("https://api.web.360kan.com/v1/rank")
-//                .params("cat", "1")
                 .params("channdlId", "0")
                 .params("_", System.currentTimeMillis())
                 .execute(new AbsCallback<String>() {
@@ -373,11 +371,20 @@ public class SearchActivity extends BaseActivity {
                     public void onSuccess(Response<String> response) {
                         try {
                             ArrayList<String> hots = new ArrayList<>();
-                            JsonArray itemList = JsonParser.parseString(response.body()).getAsJsonObject().get("data").getAsJsonObject().get("mapResult").getAsJsonObject().get("0").getAsJsonObject().get("listInfo").getAsJsonArray();
-//                            JsonArray itemList = JsonParser.parseString(response.body()).getAsJsonObject().get("data").getAsJsonArray();
-                            for (JsonElement ele : itemList) {
-                                JsonObject obj = (JsonObject) ele;
-                                hots.add(obj.get("title").getAsString().trim().replaceAll("<|>|《|》|-", "").split(" ")[0]);
+                            JsonObject mapResult = JsonParser.parseString(response.body())
+                                    .getAsJsonObject()
+                                    .get("data").getAsJsonObject()
+                                    .get("mapResult").getAsJsonObject();
+                            List<String> groupIndex = Arrays.asList("0", "1", "2", "3", "5");
+                            for (String index : groupIndex) {
+                                JsonArray itemList = mapResult.get(index).getAsJsonObject()
+                                        .get("listInfo").getAsJsonArray();
+                                for (JsonElement ele : itemList) {
+                                    JsonObject obj = (JsonObject) ele;
+                                    String hotKey = obj.get("title").getAsString().trim().replaceAll("<|>|《|》|-", "").split(" ")[0];
+                                    if (!hots.contains(hotKey))
+                                        hots.add(hotKey);
+                                }
                             }
                             wordAdapter.setNewData(hots);
                         } catch (Throwable th) {
@@ -392,7 +399,7 @@ public class SearchActivity extends BaseActivity {
                 });
 
     }
-
+    
     private void refreshQRCode() {
         String address = ControlManager.get().getAddress(false);
         tvAddress.setText(String.format("远程搜索使用手机/电脑扫描下面二维码或者直接浏览器访问地址\n%s", address));
