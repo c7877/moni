@@ -390,6 +390,7 @@ public class ModelSettingFragment extends BaseLazyFragment {
                 players.add(3);
                 players.add(4);
                 players.add(5);
+                players.add(6);
                 SelectDialog<Integer> dialog = new SelectDialog<>(mActivity);
                 dialog.setTip("请选择默认画面缩放");
                 dialog.setAdapter(new SelectDialogAdapter.SelectDialogInterface<Integer>() {
